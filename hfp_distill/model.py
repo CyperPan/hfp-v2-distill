@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
 
 from .config import HFPConfig
-from .hfp_layer import HFPLayer
+from .hfp_layer import CausalHFPLayer
 
 
 class RMSNorm(nn.Module):
@@ -51,7 +51,7 @@ class HFPDecoderLayer(nn.Module):
         self.layer_idx = layer_idx
 
         self.input_layernorm = RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
-        self.hfp = HFPLayer(
+        self.hfp = CausalHFPLayer(
             hidden_size=config.hidden_size,
             num_heads=config.num_attention_heads,
             num_kv_heads=config.num_key_value_heads,
@@ -59,6 +59,7 @@ class HFPDecoderLayer(nn.Module):
             freq_cutoff_ratio=config.freq_cutoff_ratio,
             conv_kernel_size=config.conv_kernel_size,
             attention_bias=config.attention_bias,
+            chunk_size=getattr(config, 'chunk_size', 64),
         )
 
         self.post_attention_layernorm = RMSNorm(config.hidden_size, eps=config.rms_norm_eps)

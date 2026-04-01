@@ -27,6 +27,7 @@ class HFPConfig:
     # --- HFP V2 specific ---
     freq_cutoff_ratio: float = 0.125   # k = M * ratio, controls low/high split
     conv_kernel_size: int = 7           # depthwise conv kernel size
+    chunk_size: int = 64                # chunk size for causal FFT (block-causal)
 
     # --- Runtime ---
     dtype: torch.dtype = torch.bfloat16

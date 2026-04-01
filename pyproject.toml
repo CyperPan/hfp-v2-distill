@@ -1,0 +1,12 @@
+[project]
+name = "hfp-distill"
+version = "0.1.0"
+description = "HFP V2 architecture distillation and inference framework"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.40.0",
+    "datasets>=2.18.0",
+    "accelerate>=0.27.0",
+    "wandb",
+]
